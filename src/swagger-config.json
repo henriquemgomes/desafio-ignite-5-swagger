@@ -1,0 +1,330 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Atlas",
+        "description": "Esta é uma documentação sobre a Atlas API.",
+        "version": "1.0.0",
+        "contact": {
+            "email": "henriquemcgomess@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "Criar usuário",
+                "description": "Cria um novo usuário.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Test",
+                                    "email": "test@test.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "69cee1ba-7371-4ea2-b0f9-70e775417d1e"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Test"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "test@test.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Usuário existente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao criar usuário: Já existe um usuário com o email informado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "Retorna todos os usuários",
+                "description": "Lista todos os usuários. Somente usuários admin podem acessar.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "description": "ID do usuário que está realizando a operação.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string",
+                                                "example": "69cee1ba-7371-4ea2-b0f9-70e775417d1e"
+                                            },
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "2023-01-26T00:52:43.924Z"
+
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "example": "2023-01-26T00:52:43.924Z"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Test"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "test@test.com"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "O usuário que solicitou a operação não possui permissão.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao listar todos os usuários: Apenas um admin pode listar todos os usuários."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "O usuário que solicitou a operação não existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao listar todos os usuários: Usuário que solicitou a ação não existe."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["Users"],
+                "summary": "Retorna um usuário específico.",
+                "description": "Retorna um usuário específico.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {    
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "69cee1ba-7371-4ea2-b0f9-70e775417d1e"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Test"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "test@test.com"
+                                        }
+                                    }                                    
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao exibir perfil de usuário: Usuário não encontrado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "Torna um usuário administrador.",
+                "description": "Torna um usuário administrador.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "ID do usuário.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso.",
+                        "content": {
+                            "application/json": {
+                                "schema": {    
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "example": "69cee1ba-7371-4ea2-b0f9-70e775417d1e"
+                                        },
+                                        "admin": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2023-01-26T00:52:43.924Z"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Test"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "test@test.com"
+                                        }
+                                    }                                    
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Usuário não encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Erro ao transformar usuário em admin: Usuário não encontrado."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}
